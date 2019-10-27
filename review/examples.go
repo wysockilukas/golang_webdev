@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"io"
+	"log"
+	"os"
 	"strings"
 )
 
@@ -40,6 +43,17 @@ type human interface {
 
 func saySomething(h human) {
 	h.speak()
+}
+
+//files
+func utworzPlik(fname string, content string) {
+	nf, err := os.Create(fname)
+	if err != nil {
+		log.Fatal("blad przytworzeniu pliku ", fname, err)
+	}
+	defer nf.Close()
+	io.Copy(nf, strings.NewReader(content))
+
 }
 
 func main() {
@@ -85,6 +99,8 @@ func main() {
 	//polimorfizm
 	(saySomething(p1))
 	(saySomething(sa2))
+
+	utworzPlik("test.txt", "jakis tekst w sordku")
 
 }
 
